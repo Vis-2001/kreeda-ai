@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kreeda Ai</title>
+        <link rel="stylesheet" href="kreeda.css">
+        <link rel="stylesheet" href="navbar.css">
+        <link rel="stylesheet" href="divider.css">
+ 
+    </head>
+    <body onload="master()">
+        <div class ="main-container">
+            <nav class="sub-container" id="navbar-container">
+                <p id="headed">Kreeda.ai</p>
+                <a href="/">About</a>
+                <a href="/">Contact</a>
+            </nav>
+            
+            <div class="sub-container" id="middle-container">
+                <div class="media-container" id="host-media-container">
+                    <div class="video-panel"  id="host-video-panel">
+                        <image id="host-video"></image>
+                        <canvas id="host-canvas">test</canvas>
+                    </div>
+                    
+                </div>
+                <div class="media-container" id="user-media-container">
+                    <div class="video-panel" id="user-video-panel-0">
+                        <video id="user-video-0" autoplay></video>
+                        <canvas id="user-canvas-0"></canvas>
+                    </div>
+                    <div class="video-panel" id="user-video-panel-1">
+                        <video id="user-video-1" autoplay></video>
+                        <canvas id="user-canvas-1"></canvas>
+                    </div>
+                    <div class="video-panel" id="user-video-panel-2">
+                        <video id="user-video-2" autoplay></video>
+                        <canvas id="user-canvas-2"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-container status-bar" id="bottom-container">
+                <div id="status-bar-title">
+                    <span>
+                        <label for="Reps">No of Reps</label>
+                        <input type="number" id="Reps" min="1">
+                    </span>
+                </div>
+                <div class="status-bar-items">
+                    <span>
+                        <select name="exercuse" id="giff">
+                            <option value="e1.gif">Execise 1</option>
+                            <option value="e2.gif">Execise 2</option>
+                            <option value="e3.gif">Execise 3</option>
+                        </select>
+                    </span>
+                    
+                </div>
+                <div class="status-bar-items">
+                    <button onclick="starthost()" style="background-color: black; color: white;">Start Exercise</button>
+                    
+                </div>
+                <div class="status-bar-items">
+                    <p id="reps-output">0</p>
+                    
+                </div>
+                <!-- <div class="status-bar-items">
+                    <button onclick="pausehost()" style="background-color: black; color: white;">pause:</button>                   
+                </div>   -->
+                <!-- <div class="status-bar-items">
+                    <button onclick="resethost()" style="background-color: black; color: white;">reset:</button>
+                    
+                </div>   -->
+            </div>
+            <div class="divider-container">
+				<p>||</p>
+			</div> 
+        </div>
+
+        
+    
+        <!-- <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+        <!-- <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script> -->
+        <script src="media.js"></script>
+        <script src="movenet.js"></script>
+        <script src="master.js"></script>
+
+
+        
+    </body>
+</html>

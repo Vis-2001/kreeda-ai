@@ -1,0 +1,18 @@
+.divider-container {
+    min-width: 1rem;   
+    height: 92vh;
+    position: absolute;
+    top:4vh;
+    left: 50%;
+    background-color: var(--black_3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.1s;
+    z-index: 20; 
+}
+
+.divider-container:hover {
+    box-shadow: 0 4px 5px 3px var(--pink);;
+    cursor: col-resize;
+}
