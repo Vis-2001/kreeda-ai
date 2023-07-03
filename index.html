@@ -16,7 +16,35 @@
                 <a href="/">About</a>
                 <a href="/">Contact</a>
             </nav>
-            
+            <div class="sub-container" id="hidden-container">
+                <div class="exercise-picker">
+                    <image id="exercise-1" src="e1.gif" style="display: inline;"></image>
+                    <span>Exercise 1</span>
+                    <button id="button-1" onclick="changeExercise(this.id)" style="background-color: green;">REMOVE</button>
+                    <div>
+                        <label for="Reps">No of Reps</label>
+                        <input type="number" id="Reps-e1" min="1" value="1">
+                    </div>
+                </div>
+                <div class="exercise-picker">
+                    <image id="exercise-2" src="e2.gif" style="display: inline;"></image>
+                    <span>Exercise 2</span>
+                    <button id="button-2" onclick="changeExercise(this.id)">ADD</button>
+                    <div>
+                        <label for="Reps">No of Reps</label>
+                        <input type="number" id="Reps-e2" min="1">
+                    </div>
+                </div>
+                <div class="exercise-picker">
+                    <image id="exercise-3" src="e3.gif" style="display: inline;"></image>
+                    <span>Exercise 3</span>
+                    <button id="button-3" onclick="changeExercise(this.id)">ADD</button>
+                    <div>
+                        <label for="Reps">No of Reps</label>
+                        <input type="number" id="Reps-e3" min="1">
+                    </div>
+                </div>
+            </div>
             <div class="sub-container" id="middle-container">
                 <div class="media-container" id="host-media-container">
                     <div class="video-panel"  id="host-video-panel">
@@ -43,7 +71,7 @@
             <div class="sub-container status-bar" id="bottom-container">
                 <div id="status-bar-title">
                     <span>
-                        <label for="Reps">No of Reps</label>
+                        <label for="Reps" id="change-label">No of Reps</label>
                         <input type="number" id="Reps" min="1">
                     </span>
                 </div>
@@ -58,11 +86,15 @@
                     
                 </div>
                 <div class="status-bar-items">
-                    <button onclick="starthost()" style="background-color: black; color: white;">Start Exercise</button>
+                    <button onclick="starthost()">Start Exercise</button>
                     
                 </div>
                 <div class="status-bar-items">
-                    <p id="reps-output">0</p>
+                    <button id="select-exercise" onclick="hidecontainer()">Select Exercise</button>
+                    
+                </div>
+                <div class="status-bar-items">
+                    <button id="select-exercise" onclick="showcontainer()">got Exercise</button>
                     
                 </div>
                 <!-- <div class="status-bar-items">
@@ -73,7 +105,7 @@
                     
                 </div>   -->
             </div>
-            <div class="divider-container">
+            <div class="divider-container" id="div-con">
 				<p>||</p>
 			</div> 
         </div>

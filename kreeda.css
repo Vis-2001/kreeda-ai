@@ -29,7 +29,6 @@ body {
 }
 
 .sub-container {
-   display: block;
    min-width: 100%;
 }
 
@@ -41,7 +40,7 @@ body {
     background-color: var(--black_3);
 }
 
-#middle-container {
+#middle-container,#hidden-container {
     height: 92vh;
     flex-grow: 1;
     background-color: rgb(37, 35, 35);
@@ -169,4 +168,50 @@ input{
     color: var(--white);
     background-color: var(--black_3);
     text-align: center;
+}
+
+#hidden-container {
+    height: 92vh;
+    flex-grow: 1;
+    background-color: rgb(37, 35, 35);
+    display: none;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
+.exercise-picker{
+    background-color: rgb(47, 46, 46);
+    display: flex;
+    /* flex-wrap: wrap; */
+    /* margin: 30px; */
+    /* border-radius: 50%; */
+    height: 25vh;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    border: 0px;
+    
+}
+.exercise-picker img{
+    border-radius: 5%;
+    height: 100%;
+    width: auto;
+}
+button{
+    background-color: var(--black_3); 
+    color: var(--white);
+    border: none;
+}
+.exercise-picker button{
+    border-radius: 5%;
+    padding: 1%;
+    background-color: red;
+}
+.exercise-picker button:hover{
+   border: 2px solid white;
+}
+.exercise-picker input{
+    text-align: center;
+}
+.status-bar-items button:hover{
+    color: var(--pink);
 }

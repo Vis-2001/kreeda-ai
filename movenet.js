@@ -9,8 +9,8 @@ async function load_movenet(){
 }
 
 
-let user_clr=["green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green",]
-let host_clr=["green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green",]
+const user_clr=["green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green",]
+const host_clr=["green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green",]
 
 
 async function get_poses_0(video, canvas,video1, canvas1) {

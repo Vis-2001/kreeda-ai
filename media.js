@@ -7,6 +7,7 @@ function load_media() {
 
 function load_host_video() {
 	html['host']['video'][0].src = "e1.gif";
+	html['host']['video'][0].loop = 1;
 	return("Loaded host video");
 }
 
@@ -133,9 +134,9 @@ function plot(){
 function starthost(){
 	let v=document.getElementById("host-video")
 	let btn=document.getElementById("giff")
-	let btn1=document.getElementById("Reps")
-	rep=btn1.value;
-	document.getElementById("reps-output").innerText=rep*2
+	// let btn1=document.getElementById("Reps")
+	// rep=btn1.value;
+	// document.getElementById("reps-output").innerText=rep*2
 	v.src=btn.value;
 }
 
@@ -154,4 +155,65 @@ function pausehost(){
 function find_angle(A,B,C) {
    var rad= Math.atan2(C.y-B.y,C.x-B.x)-Math.atan2(A.y-B.y,A.x-B.x)
     return rad*180/Math.PI;
+}
+
+function hidecontainer(){
+	document.getElementById("div-con").style.display="none"
+	document.getElementById("middle-container").style.display="none"
+	document.getElementById("hidden-container").style.display="flex"
+}
+function showcontainer(){
+	document.getElementById("div-con").style.display="flex"
+	document.getElementById("middle-container").style.display="flex"
+	document.getElementById("hidden-container").style.display="none"
+	let temp="Reps-e*"
+	exer_rep=[]
+	let ind=-1
+	for(let i=1;i<=exer.length;i++)
+	{
+		if(exer[i-1	])
+		{
+			let temp1=temp.replace("*",i)
+			exer_rep.push(document.getElementById(temp1).value)
+		}
+		else
+		{
+			exer_rep.push(0)
+		}
+	}
+	document.getElementById("change-label").innerText=exer_rep
+}
+
+function changeExercise(buttonId){
+	let val;
+	if(buttonId=="button-1")
+	{
+		exer[0]=!exer[0];
+		val=exer[0];
+	}
+	else if(buttonId=="button-2")
+	{
+		exer[1]=!exer[1];
+		val=exer[1];
+	}
+	else
+	{
+		exer[2]=!exer[2];
+		val=exer[2];
+	}
+	if(val==true)
+	{
+		let but=document.getElementById(buttonId);
+		but.innerText="REMOVE"
+		but.style.backgroundColor="green"
+		let inp=buttonId.replace("button-","Reps-e")
+		document.getElementById(inp).value=1
+	}
+	else{
+		let but=document.getElementById(buttonId);
+		but.innerText="ADD"
+		but.style.backgroundColor="red"
+		let inp=buttonId.replace("button-","Reps-e")
+		document.getElementById(inp).value=null
+	}
 }

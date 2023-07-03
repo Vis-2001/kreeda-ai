@@ -55,6 +55,9 @@ let pau=true
 
 let model_poses=[null,null];
 
+const exer =[true,false,false];
+let exer_rep =[];
+
 async function master(){
 	loading_status = await load_movenet();
 	loading_status = load_media();
