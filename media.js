@@ -164,6 +164,25 @@ function hidecontainer(){
 	document.getElementById("middle-container").style.display="none"
 	document.getElementById("hidden-container").style.display="flex"
 }
+
+async function playVid(val)
+{
+	var v=document.getElementById("host-video")
+	if(val)
+	{
+		alert("demo video")
+		v.src=exer_list[exer_ind];
+		v.loop=false
+		v.play()
+	}
+	else
+	{
+		alert("start")
+		v.currentTime=0;
+		v.play()
+	}
+}
+
 function showcontainer(){
 	document.getElementById("div-con").style.display="flex"
 	document.getElementById("middle-container").style.display="flex"
@@ -171,12 +190,14 @@ function showcontainer(){
 	let temp="Reps-e*"
 	exer_rep=[]
 	let ind=-1
+	let cnt=0
 	for(let i=1;i<=exer.length;i++)
 	{
 		if(exer[i-1	])
 		{
 			let temp1=temp.replace("*",i)
 			exer_rep.push(document.getElementById(temp1).value)
+			cnt=1
 		}
 		else
 		{
@@ -187,6 +208,38 @@ function showcontainer(){
 	}
 	document.getElementById("change-label").innerText=exer_rep
 	// add video playing thing asynchronous 
+	exer_ind=0;
+	for(;exer_ind<exer.length-1;exer_ind++)
+	{
+		if(exer[exer_ind])
+		break;
+	}
+	document.getElementById("host-video").addEventListener("ended",function(){
+		exer_rep[exer_ind]=exer_rep[exer_ind]-1;
+		if(exer_rep[exer_ind]>=0)
+		{
+			playVid(false)
+		}
+		else{
+			exer_ind++;
+			for(;exer_ind<exer.length-1;exer_ind++)
+			{
+				if(exer[exer_ind])
+				break;
+			}
+			if(exer_ind<exer_list.length-1){
+				playVid(true)
+			}
+			else{
+				document.getElementById("host-video").pause()
+			}
+		}
+	})
+	if(cnt==1)
+	playVid(true)
+	else
+	alert("None selected")
+	
 }
 
 function changeExercise(buttonId){

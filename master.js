@@ -53,12 +53,14 @@ let webcam = {
 
 let pau=true
 
-let exer_list=["videos/e1.mp4","videos/e2.mp4","videos/e3.mp4","videos/e4.mp4"]
+let exer_list=["videos/e3.mp4","videos/e2.mp4","videos/e1.mp4"]
 
 let model_poses=[null,null];
 
 const exer =[true,false,false];
 let exer_rep =[];
+
+let exer_ind=0;
 
 async function master(){
 	loading_status = await load_movenet();

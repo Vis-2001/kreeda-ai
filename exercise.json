@@ -1,0 +1,20 @@
+{
+    "exercise": [
+        {
+            "file": "giff/e1.gif",
+            "name": "exercise 1"
+        },
+        {
+            "file": "giff/e2.gif",
+            "name": "exercise 2"
+        },
+        {
+            "file": "giff/e3.gif",
+            "name": "exercise 3"
+        },
+        {
+            "file": "",
+            "name": "exercise 4"
+        }
+    ]
+}
