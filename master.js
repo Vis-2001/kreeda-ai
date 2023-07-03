@@ -53,6 +53,8 @@ let webcam = {
 
 let pau=true
 
+let exer_list=["videos/e1.mp4","videos/e2.mp4","videos/e3.mp4","videos/e4.mp4"]
+
 let model_poses=[null,null];
 
 const exer =[true,false,false];

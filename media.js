@@ -6,7 +6,7 @@ function load_media() {
 }
 
 function load_host_video() {
-	html['host']['video'][0].src = "e1.gif";
+	html['host']['video'][0].src = "videos/e4.mp4";
 	html['host']['video'][0].loop = 1;
 	return("Loaded host video");
 }
@@ -138,6 +138,8 @@ function starthost(){
 	// rep=btn1.value;
 	// document.getElementById("reps-output").innerText=rep*2
 	v.src=btn.value;
+	v.loop=false
+	v.play()
 }
 
 function resethost(){
@@ -178,10 +180,13 @@ function showcontainer(){
 		}
 		else
 		{
+			let temp1=temp.replace("*",i)
+			document.getElementById(temp1).value=null
 			exer_rep.push(0)
 		}
 	}
 	document.getElementById("change-label").innerText=exer_rep
+	// add video playing thing asynchronous 
 }
 
 function changeExercise(buttonId){
