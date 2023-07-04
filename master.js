@@ -62,6 +62,10 @@ let exer_rep =[];
 
 let exer_ind=0;
 
+let wrongframe=0
+let totalframe=0
+let chooseframes=false
+
 async function master(){
 	loading_status = await load_movenet();
 	loading_status = load_media();

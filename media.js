@@ -122,6 +122,12 @@ function diff(ang1,ang2)
 	console.log(ang1)
 	console.log(ang2)
 	console.log("fault point:",ans.length,ans);
+	if(chooseframes==true)
+	{
+		if(ans.length>2)
+		wrongframe++;
+		totalframe++;
+	}
 }
 
 function plot(){
@@ -182,11 +188,13 @@ async function playVid(val)
 		v.play()
 	}
 }
-
-function showcontainer(){
+function displaychange(){
 	document.getElementById("div-con").style.display="flex"
 	document.getElementById("middle-container").style.display="flex"
 	document.getElementById("hidden-container").style.display="none"
+}
+function showcontainer(){
+	displaychange()
 	let temp="Reps-e*"
 	exer_rep=[]
 	let ind=-1
@@ -215,9 +223,19 @@ function showcontainer(){
 		break;
 	}
 	document.getElementById("host-video").addEventListener("ended",function(){
+		chooseframes=false
+		alert(wrongframe/totalframe*100)
+		if(wrongframe/totalframe*100>40)
+		{
+			// exer_rep[exer_ind]=exer_rep[exer_ind]+1
+			alert("exercise not done properly")
+		}
+		wrongframe=0
+		totalframe=0
 		exer_rep[exer_ind]=exer_rep[exer_ind]-1;
 		if(exer_rep[exer_ind]>=0)
 		{
+			chooseframes=true
 			playVid(false)
 		}
 		else{
@@ -228,6 +246,7 @@ function showcontainer(){
 				break;
 			}
 			if(exer_ind<exer_list.length-1){
+				chooseframes=true
 				playVid(true)
 			}
 			else{
@@ -236,7 +255,10 @@ function showcontainer(){
 		}
 	})
 	if(cnt==1)
-	playVid(true)
+	{
+		chooseframes=true
+		playVid(true)
+	}
 	else
 	alert("None selected")
 	
