@@ -90,50 +90,77 @@ function drawKeypoints(video, poses, canvas,clr) {
 	
   }
 
-function get_angle(poses)
+function get_angle(poses,ind)
 {
 	let ans=[]
 	for(let i=0;i<angles.length;i++)
 	{
 		ans.push(find_angle(poses[0].keypoints[angles[i][0]],poses[0].keypoints[angles[i][1]],poses[0].keypoints[angles[i][2]]))
 	}
+	let ele=null
+	if(ind==1)
+	ele=document.getElementById("angleoselcen")
+	if(ind==0)
+	ele=document.getElementById("angleoselleft")
+	if(ind==2)
+	ele=document.getElementById("angleoselright")
+	if(ind!=-1 && ele.value!=-1)
+	{
+		if(ans[ele.val]<-180)
+		ang[ind]=0
+		else if(ans[ele.val]>180)
+		ang[ind]=360
+		else 
+		ang[ind]=ans[ele.value]+180
+	}
+	if(ele!=null && ele.value==-1)
+	ang[ind]=0
 	return ans;
 }
 
 function diff(ang1,ang2)
 {
 	let ans=[]
-	for(let i=0;i<angles.length;i++)
+	for(let i=0;i<selAngles.length;i++)
 	{
-		var d=ang1[i]-ang2[i];
-		if(d<-30)
+		if(selAngles[i]!=null)
 		{
-			ans.push(angles[i][1])
-			user_clr[angles[i][1]]="red"
+			var d=ang1[selAngles[i]]-ang2[selAngles[i]];
+			if(d<-30)
+			{
+				ans.push(angles[selAngles[i]][1])
+				user_clr[angles[selAngles[i]][1]]="red"
+			}
+			else if(d>30)
+			{
+				ans.push(angles[selAngles[i]][1])
+				user_clr[angles[selAngles[i]][1]]="red"
+			}
+			else
+			user_clr[angles[selAngles[i]][1]]="green"
 		}
-		else if(d>30)
-		{
-			ans.push(angles[i][1])
-			user_clr[angles[i][1]]="red"
-		}
-		else
-		user_clr[angles[i][1]]="green"
 	}
 	console.log(ang1)
 	console.log(ang2)
 	console.log("fault point:",ans.length,ans);
 	if(chooseframes==true)
 	{
-		if(ans.length>2)
+		if(ans.length>1)
 		wrongframe++;
 		totalframe++;
 	}
 }
-
-function plot(){
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+ }
+async function plot(){
 	get_poses_0(html['user']['video'][0], html['user']['canvas'][0],html['host']['video'][0], html['host']['canvas'][0]);
 	get_poses_1(html['user']['video'][1], html['user']['canvas'][1]);
 	get_poses_2(html['user']['video'][2], html['user']['canvas'][2]);
+	changeAngleMetr1();
+	changeAngleMetr2();
+	changeAngleMetr3();
+	await sleep(100)
 	window.requestAnimationFrame(plot);
 }
 
@@ -176,14 +203,14 @@ async function playVid(val)
 	var v=document.getElementById("host-video")
 	if(val)
 	{
-		alert("demo video")
+		alert("start")
 		v.src=exer_list[exer_ind];
 		v.loop=false
 		v.play()
 	}
 	else
 	{
-		alert("start")
+		// alert("start")
 		v.currentTime=0;
 		v.play()
 	}
@@ -224,11 +251,14 @@ function showcontainer(){
 	}
 	document.getElementById("host-video").addEventListener("ended",function(){
 		chooseframes=false
-		alert(wrongframe/totalframe*100)
-		if(wrongframe/totalframe*100>40)
+		// alert(wrongframe/totalframe*100)
+		if(wrongframe/totalframe*100>50)
 		{
-			// exer_rep[exer_ind]=exer_rep[exer_ind]+1
+			exer_rep[exer_ind]=exer_rep[exer_ind]+1
 			alert("exercise not done properly")
+		}
+		else{
+			alert("rep completed")
 		}
 		wrongframe=0
 		totalframe=0
@@ -276,10 +306,15 @@ function changeExercise(buttonId){
 		exer[1]=!exer[1];
 		val=exer[1];
 	}
-	else
+	else if(buttonId=="button-3")
 	{
 		exer[2]=!exer[2];
 		val=exer[2];
+	}
+	else
+	{
+		exer[3]=!exer[3];
+		val=exer[3];	
 	}
 	if(val==true)
 	{
@@ -296,4 +331,124 @@ function changeExercise(buttonId){
 		let inp=buttonId.replace("button-","Reps-e")
 		document.getElementById(inp).value=null
 	}
+}
+
+function getAngleMeter()
+{
+	const wrapper = document.querySelectorAll('.progress');
+
+	const barCount = 50;
+
+	const percent1 = Math.round(50 * Math.random()*100)/100;
+	for (let index = 0; index < barCount; index++) {
+		const className = index<percent1?'selected1':'';
+		wrapper[0].innerHTML += `<i style="--i: ${index};" class="${className}"></i>`;
+	}
+
+	wrapper[0].innerHTML += `<p class="selected percent-text text1" id="para">${percent1*2}%</p>`
+	const percent2 = Math.round(50 * Math.random()*100)/100;
+	for (let index = 0; index < barCount; index++) {
+		const className = index<percent2?'selected1':'';
+		wrapper[1].innerHTML += `<i style="--i: ${index};" class="${className}"></i>`;
+	}
+
+	wrapper[1].innerHTML += `<p class="selected percent-text text1" id="para">${percent2*2}%</p>`
+	const percent3 = Math.round(50 * Math.random()*100)/100;
+	for (let index = 0; index < barCount; index++) {
+		const className = index<percent3?'selected1':'';
+		wrapper[2].innerHTML += `<i style="--i: ${index};" class="${className}"></i>`;
+	}
+
+	wrapper[2].innerHTML += `<p class="selected percent-text text1" id="para">${percent3*2}%</p>`
+}
+
+async function changeAngleMetr1()
+{
+	const val=ang[0]
+	const div=document.getElementById("p1")
+	const divChildNodes=div.childNodes
+	const p=divChildNodes[50]
+    const per=50*val/360;
+    let index=0
+    divChildNodes.forEach(element => {
+        if(element.nodeName=="I")
+        {
+            element.className=index < per ? 'selected1' : '';
+            console.log(element.className)
+        }
+        index++;
+    });
+	p.style.color="green"
+    p.innerText=Math.round(val*100)/100;
+}
+async function changeAngleMetr2()
+{
+	const val=ang[1]
+	const div=document.getElementById("p2")
+	const divChildNodes=div.childNodes
+	const p=divChildNodes[50]
+    const per=50*val/360;
+    let index=0
+    divChildNodes.forEach(element => {
+        if(element.nodeName=="I")
+        {
+            element.className=index < per ? 'selected2' : '';
+            console.log(element.className)
+        }
+        index++;
+    });
+	p.style.color="yellow"
+    p.innerText=Math.round(val*100)/100;
+}
+async function changeAngleMetr3()
+{
+	const val=ang[2]
+	const div=document.getElementById("p3")
+	const divChildNodes=div.childNodes
+	const p=divChildNodes[50]
+    const per=50*val/360;
+    let index=0
+    divChildNodes.forEach(element => {
+        if(element.nodeName=="I")
+        {
+            element.className=index < per ? 'selected3' : '';
+            console.log(element.className)
+        }
+        index++;
+    });
+	p.style.color="red"
+    p.innerText=Math.round(val*100)/100;
+}
+
+function displayangles(){
+	let val1=document.getElementById("angleowat1")
+	let val2=document.getElementById("angleowat2")
+	let val3=document.getElementById("angleowat3")
+	let val4=document.getElementById("angleowat4")
+	let but=document.getElementById("defineAngles")
+	let text=""
+	if(val1.value!=-1)
+	{
+		text+=val1.value+' '
+		selAngles[0]=val1.value
+	}
+	if(val2.value!=-1)
+	{
+		text+=val2.value+' '
+		selAngles[1]=val2.value
+	}
+	if(val3.value!=-1)
+	{
+		text+=val3.value+' '
+		selAngles[2]=val3.value
+	}
+	if(val4.value!=-1)
+	{
+		text+=val4.value+' '
+		selAngles[3]=val4.value
+	}
+	if(text!="")
+	but.innerText=text
+	else
+	but.innerText="No angles chooses"
 }

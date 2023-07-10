@@ -24,8 +24,8 @@ async function get_poses_0(video, canvas,video1, canvas1) {
 	await user_model_0.estimatePoses(video, {flipHorizontal: false})
 			.then(keypoint_list => {poses = keypoint_list;})
 			.catch((error) => { console.log(error); })
-	let ang1=get_angle(poses)
-	let ang2=get_angle(poses1)
+	let ang1=get_angle(poses,1)
+	let ang2=get_angle(poses1,-1)
 	diff(ang1,ang2)
 	drawKeypoints(video, poses, canvas,user_clr);
 }
@@ -36,6 +36,7 @@ async function get_poses_1(video, canvas) {
 			.then(keypoint_list => {poses = keypoint_list;})
 			.catch((error) => { console.log(error); })
 	drawKeypoints(video, poses, canvas,user_clr);
+	let ang1=get_angle(poses,0)
 }
 
 async function get_poses_2(video, canvas) {
@@ -44,6 +45,7 @@ async function get_poses_2(video, canvas) {
 			.then(keypoint_list => {poses = keypoint_list;})
 			.catch((error) => { console.log(error); })
 	drawKeypoints(video, poses, canvas,user_clr);
+	let ang1=get_angle(poses,2)
 }
 
 async function get_poses_host(video, canvas) {
