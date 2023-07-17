@@ -315,6 +315,9 @@ button{
     justify-content: space-evenly;
     align-items: center;
 }
+/* #hideAudio{
+    display: none;
+} */
 @keyframes barCreationAnimation {
     from {opacity: 0}
     to {opacity: 1} 

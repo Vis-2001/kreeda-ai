@@ -23,8 +23,8 @@
                     </nav>
                 </div>
                 <div class="exercise-picker">
-                    <image id="exercise-1" src="giff/e1.gif" style="display: inline;"></image>
-                    <span>Exercise 1</span>
+                    <image id="exercise-1" src="giff/bentoverrow.gif" style="display: inline;"></image>
+                    <span>Bent Over Row</span>
                     <button id="button-1" onclick="changeExercise(this.id)" style="background-color: green;">REMOVE</button>
                     <div>
                         <label for="Reps">No of Reps</label>
@@ -32,8 +32,8 @@
                     </div>
                 </div>
                 <div class="exercise-picker">
-                    <image id="exercise-2" src="giff/e2.gif" style="display: inline;"></image>
-                    <span>Exercise 2</span>
+                    <image id="exercise-2" src="giff/widefloorpress.gif" style="display: inline;"></image>
+                    <span>Wide Floor Press</span>
                     <button id="button-2" onclick="changeExercise(this.id)">ADD</button>
                     <div>
                         <label for="Reps">No of Reps</label>
@@ -84,6 +84,7 @@
             </div>
             <div class="sub-container" id="angleometer" style="display: flex;flex-direction: column;">
                 <div id="selectangles" style="display: flex; justify-content: space-around;min-width: 50%;">
+                    <audio id="hideAudio"></audio>
                     <div style="display: flex; flex-direction: column;">
                         <label for="angle1">angle1</label>
                         <select name="angle1" id="angleowat1">
@@ -210,7 +211,7 @@
                                 <option value="7">right hip outer</option>
                                 <option value="8">left knee</option>
                                 <option value="9">right knee</option>
-                                <option value="10">left eye</option>
+                                <option value="10">left eye</option>    
                                 <option value="11">right eye</option>
                             </select>
                         </div>
@@ -230,8 +231,8 @@
                 <div class="status-bar-items">
                     <span>
                         <select name="exercuse" id="giff">
-                            <option value="videos/e1.mp4">Execise 1</option>
-                            <option value="videos/e2.mp4">Execise 2</option>
+                            <option value="videos/bentoverrow.mp4">Execise 1</option>
+                            <option value="videos/widefloorpress.mp4">Execise 2</option>
                             <option value="videos/e3.mp4">Execise 3</option>
                             <option value="videos/e4.mp4">Execise 4</option>
                         </select>

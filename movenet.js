@@ -19,7 +19,12 @@ async function get_poses_0(video, canvas,video1, canvas1) {
 			.then(keypoint_list => {poses1 = keypoint_list;})
 			.catch((error) => { console.log(error); })
 	drawKeypoints(video1, poses1, canvas1,host_clr);
-
+	if(checkStart==true)
+	{
+	// alert("exercisesarted")
+	exerciseStarted(poses1)
+	}	
+	console.log(poses1)
 	let poses= [];
 	await user_model_0.estimatePoses(video, {flipHorizontal: false})
 			.then(keypoint_list => {poses = keypoint_list;})

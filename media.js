@@ -87,7 +87,7 @@ function drawKeypoints(video, poses, canvas,clr) {
 			ctx.fill();
 		}
 	}
-	
+
   }
 
 function get_angle(poses,ind)
@@ -121,6 +121,8 @@ function get_angle(poses,ind)
 function diff(ang1,ang2)
 {
 	let ans=[]
+	// let audiosrc="audio/elbow.wav"
+	let pos=0;
 	for(let i=0;i<selAngles.length;i++)
 	{
 		if(selAngles[i]!=null)
@@ -130,19 +132,44 @@ function diff(ang1,ang2)
 			{
 				ans.push(angles[selAngles[i]][1])
 				user_clr[angles[selAngles[i]][1]]="red"
+				if(diffAngleState)
+				{
+					let audio=document.getElementById("hideAudio")
+					audio.src=audiosrc[angles[selAngles[i]][1]][0]
+					audio.play()
+					audio.loop=true
+					diffAngleState=false
+					break
+				}
 			}
 			else if(d>30)
 			{
 				ans.push(angles[selAngles[i]][1])
 				user_clr[angles[selAngles[i]][1]]="red"
+				if(diffAngleState)
+				{
+					let audio=document.getElementById("hideAudio")
+					audio.src=audiosrc[angles[selAngles[i]][1]][1]
+					audio.play()
+					audio.loop=true
+					diffAngleState=false
+					break
+				}
 			}
 			else
-			user_clr[angles[selAngles[i]][1]]="green"
+			{
+				user_clr[angles[selAngles[i]][1]]="green"
+			}
+			
 		}
 	}
-	console.log(ang1)
-	console.log(ang2)
-	console.log("fault point:",ans.length,ans);
+	if(ans.length==0)
+	{
+		diffAngleState=true
+		let audio=document.getElementById("hideAudio")
+		audio.pause()
+		audio.loop=false
+	}
 	if(chooseframes==true)
 	{
 		if(ans.length>1)
@@ -153,6 +180,7 @@ function diff(ang1,ang2)
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
  }
+
 async function plot(){
 	get_poses_0(html['user']['video'][0], html['user']['canvas'][0],html['host']['video'][0], html['host']['canvas'][0]);
 	get_poses_1(html['user']['video'][1], html['user']['canvas'][1]);
@@ -167,9 +195,6 @@ async function plot(){
 function starthost(){
 	let v=document.getElementById("host-video")
 	let btn=document.getElementById("giff")
-	// let btn1=document.getElementById("Reps")
-	// rep=btn1.value;
-	// document.getElementById("reps-output").innerText=rep*2
 	v.src=btn.value;
 	v.loop=false
 	v.play()
@@ -191,7 +216,21 @@ function find_angle(A,B,C) {
    var rad= Math.atan2(C.y-B.y,C.x-B.x)-Math.atan2(A.y-B.y,A.x-B.x)
     return rad*180/Math.PI;
 }
-
+function exerciseStarted(poses){
+	let left=find_angle(poses[0].keypoints[8],poses[0].keypoints[6],poses[0].keypoints[12])
+	let right=find_angle(poses[0].keypoints[7],poses[0].keypoints[5],poses[0].keypoints[11])
+	// alert("showcontainer")
+	console.log(left)
+	console.log(right)
+	if(left>340 || right>340)
+	{
+		showcontainer()
+		let audio=document.getElementById("hideAudio")
+		audio.pause()
+		checkStart=false
+		alert(checkStart)
+	}
+}
 function hidecontainer(){
 	document.getElementById("div-con").style.display="none"
 	document.getElementById("middle-container").style.display="none"
@@ -203,14 +242,13 @@ async function playVid(val)
 	var v=document.getElementById("host-video")
 	if(val)
 	{
-		alert("start")
+		// alert("start")
 		v.src=exer_list[exer_ind];
 		v.loop=false
 		v.play()
 	}
 	else
 	{
-		// alert("start")
 		v.currentTime=0;
 		v.play()
 	}
@@ -219,9 +257,38 @@ function displaychange(){
 	document.getElementById("div-con").style.display="flex"
 	document.getElementById("middle-container").style.display="flex"
 	document.getElementById("hidden-container").style.display="none"
+	checkStart=true
+	alert("music")
+	let audio=document.getElementById("hideAudio")
+	audio.src="audio/elbow.wav"
+	audio.play()
+	audio.loop=true
 }
-function showcontainer(){
+async function showcontainer(){
+	// alert("in show cntaineer")
 	displaychange()
+	await sleep(5000)
+	// let audio=document.getElementById("hideAudio")
+	// audio.src="audio/five.wav"
+	// audio.play()
+	// audio.loop=false
+	// await sleep(1000)
+	// audio.src="audio/four.wav"
+	// audio.play()
+	// audio.loop=false
+	// await sleep(1000)
+	// audio.src="audio/three.wav"
+	// audio.play()
+	// audio.loop=false
+	// await sleep(1000)
+	// audio.src="audio/two.wav"
+	// audio.play()
+	// audio.loop=false
+	// await sleep(1000)
+	// audio.src="audio/one.wav"
+	// audio.play()
+	// audio.loop=false
+	// await sleep(1000)
 	let temp="Reps-e*"
 	exer_rep=[]
 	let ind=-1
@@ -255,10 +322,10 @@ function showcontainer(){
 		if(wrongframe/totalframe*100>50)
 		{
 			exer_rep[exer_ind]=exer_rep[exer_ind]+1
-			alert("exercise not done properly")
+			// alert("exercise not done properly")
 		}
 		else{
-			alert("rep completed")
+			// alert("rep completed")
 		}
 		wrongframe=0
 		totalframe=0
@@ -374,7 +441,7 @@ async function changeAngleMetr1()
         if(element.nodeName=="I")
         {
             element.className=index < per ? 'selected1' : '';
-            console.log(element.className)
+            // console.log(element.className)
         }
         index++;
     });
@@ -393,7 +460,7 @@ async function changeAngleMetr2()
         if(element.nodeName=="I")
         {
             element.className=index < per ? 'selected2' : '';
-            console.log(element.className)
+            // console.log(element.className)
         }
         index++;
     });
@@ -412,7 +479,7 @@ async function changeAngleMetr3()
         if(element.nodeName=="I")
         {
             element.className=index < per ? 'selected3' : '';
-            console.log(element.className)
+            // console.log(element.className)
         }
         index++;
     });
