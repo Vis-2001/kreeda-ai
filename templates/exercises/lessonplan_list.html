@@ -1,0 +1,27 @@
+{% extends '_base.html' %}
+{% block body %}
+
+<main class="w-3/5 mx-auto my-20">
+    <h1 class="text-5xl font-black">Lesson Plans</h1>
+    <div class="my-10">
+        {% for item in object_list %}
+        <div class="rounded shadow-md grid grid-cols-2">
+            <div class="bg-primary p-10 rounded rounded-r-none">
+                <h3 class="text-white text-2xl font-bold">{{ item.name }}</h3>
+                <h6 class="text-white text-lg font-bold mt-10">List of Exercises:</h6>
+                <ul class="mt-5 px-6 list-disc">
+                    {% for set in item.exercise_sets.all %}
+                    <li class="text-white font-semibold">{{ set.exercise.name }} <span class="text-sm font-normal">x {{ set.reps }} reps x {{ set.number_of_sets }} sets</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="bg-background-light rounded rounded-l-none">
+                <a href="{% url 'lessonplan-detail' slug=item.slug %}" class="w-full h-full text-7xl font-black flex justify-center items-center">Go!</a>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock %}

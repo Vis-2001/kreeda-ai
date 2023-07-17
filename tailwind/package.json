@@ -1,0 +1,14 @@
+{
+  "name": "kreeda",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "watch:css": "tailwindcss -i ./src/main.css -o ../static/css/output.css --watch",
+    "build:css": "tailwindcss -i ./src/main.css -o ../static/css/output.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}

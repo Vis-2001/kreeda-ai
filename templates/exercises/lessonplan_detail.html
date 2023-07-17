@@ -1,0 +1,27 @@
+{% extends '_base.html' %}
+{% block body %}
+
+<main class="w-3/5 mx-auto my-20">
+    <h1 class="text-5xl font-black">{{ object.name }}</h1>
+    <h2 class="text-3xl font-black mt-20">List of Exercises</h2>
+    <div class="my-10">
+        {% for item in object.exercise_sets.all %}
+        <div class="rounded border-[1px] grid grid-cols-3 my-10">
+            <div class="rounded h-80">
+                {% if item.exercise.video_reference %}
+                <video src="{{ item.exercise.video_reference.url }}" loop class="h-full w-full"></video>
+                {% endif %}
+            </div>
+            <div class="p-10 col-span-2">
+                <h3 class="text-2xl font-bold text-black">{{ item.exercise.name }}</h3>
+                <div class="my-5">
+
+                    <a href="#" class="bg-primary px-4 py-2 text-md text-white font-bold rounded-full">Start</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from modelcluster.models import ParentalKey
 from wagtail.models import ClusterableModel, Orderable
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
@@ -76,6 +77,11 @@ class ExerciseSet(Orderable):
 @register_snippet
 class LessonPlan(ClusterableModel):
     name = models.CharField(max_length=128)
+    slug = models.SlugField(
+        default="",
+        editable=False,
+        max_length=255
+    )
     description = models.TextField()
 
     panels = [
@@ -87,5 +93,8 @@ class LessonPlan(ClusterableModel):
         ),
     ]
 
-
-
+    def save(self, **kwargs) -> None:
+        """Override save method to save slug field."""
+        name = self.name
+        self.slug = slugify(name)
+        super().save(**kwargs)
