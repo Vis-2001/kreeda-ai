@@ -7,16 +7,16 @@
     <div class="my-10">
         {% for item in object.exercise_sets.all %}
         <div class="rounded border-[1px] grid grid-cols-3 my-10">
-            <div class="rounded h-80">
+            <div class="rounded">
                 {% if item.exercise.video_reference %}
-                <video src="{{ item.exercise.video_reference.url }}" loop class="h-full w-full"></video>
+                <video src="{{ item.exercise.video_reference.url }}" muted autoplay loop class="h-full w-full rounded"></video>
                 {% endif %}
             </div>
             <div class="p-10 col-span-2">
-                <h3 class="text-2xl font-bold text-black">{{ item.exercise.name }}</h3>
-                <div class="my-5">
-
-                    <a href="#" class="bg-primary px-4 py-2 text-md text-white font-bold rounded-full">Start</a>
+                <h3 class="text-2xl font-semibold text-black">{{ item.exercise.name }}</h3>
+                <p class="text-gray-500 text-sm">{{ item.reps }} Reps x {{ item.number_of_sets }} Sets</p>
+                <div class="mt-10">
+                    <a href="#" class="bg-primary px-4 py-2 text-md text-white font-medium rounded-full">Start</a>
                 </div>
             </div>
         </div>

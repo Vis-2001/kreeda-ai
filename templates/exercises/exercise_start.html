@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+{% block body %}
+
+<main class="grid grid-cols-2">
+    <div>
+        <video src="{{ object.video_reference.url }}" muted autoplay loop class="h-full w-full rounded"></video>
+    </div>
+    <div class="">
+        <div class="bg-black h-full">
+        </div>
+        <div class="flex justify-center items-center">
+            <div class="bg-secondary h-10 w-10"></div>
+            <div class="bg-red-600 h-10 w-10"></div>
+        </div>
+    </div>
+</main>
+
+<section class="my-20">
+    something
+</section>
+
+{% endblock %}

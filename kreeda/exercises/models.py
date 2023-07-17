@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from modelcluster.models import ParentalKey
 from wagtail.models import ClusterableModel, Orderable
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.fields import RichTextField
 from wagtail.snippets.models import register_snippet
 
 
@@ -23,6 +24,9 @@ class ExerciseCategory(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 @register_snippet
 class Exercise(models.Model):
@@ -34,6 +38,12 @@ class Exercise(models.Model):
         related_name="exercises"
     )
     name = models.CharField(max_length=128)
+    description = models.TextField()
+    slug = models.SlugField(
+        default="",
+        editable=False,
+        max_length=255
+    )
     video_reference = models.FileField(
         upload_to="exercise_videos",
 
@@ -49,12 +59,19 @@ class Exercise(models.Model):
     panels = [
         FieldPanel("category"),
         FieldPanel("name"),
+        FieldPanel("description"),
         FieldPanel("video_reference"),
         FieldPanel("joints_to_track")
     ]
 
     def __str__(self) -> str:
         return self.name
+    
+    def save(self, **kwargs) -> None:
+        """Override save method to save slug field."""
+        name = self.name
+        self.slug = slugify(name)
+        super().save(**kwargs)
     
 
 

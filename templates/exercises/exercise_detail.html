@@ -1,0 +1,16 @@
+{% extends '_base.html' %}
+{% block body %}
+
+<main class="w-3/5 mx-auto my-20">
+    <div class="flex justify-between items-center">
+        <h1 class="text-5xl font-black">{{ object.name }}</h1>
+        <a href="{% url 'exercise-start' slug=object.slug %}" class="bg-secondary rounded px-4 py-2 text-white font-bold">Start</a>
+    </div>
+    <div class="my-10">
+        <video src="{{ object.video_reference.url }}" muted autoplay loop class="h-full w-full rounded"></video>
+    </div>
+    <div>
+        <p>{{ object.description }}</p>
+    </div>
+</main>
+{% endblock %}

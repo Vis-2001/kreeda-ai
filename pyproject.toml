@@ -5,13 +5,15 @@ description = ""
 authors = ["RohanJnr <rohanjnr44@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "keerda"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.2.3"
 wagtail = "^5.0.2"
 
+
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]
