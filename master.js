@@ -1,32 +1,13 @@
-// const html = {
-// 	'user': {
-// 		'video': [ document.getElementById("user-video-0"), 
-// 				   document.getElementById("user-video-1"), 
-// 				   document.getElementById("user-video-2")
-// 				],
-// 		'canvas': [
-// 			document.getElementById("user-canvas-0"),
-// 			document.getElementById("user-canvas-1"),
-// 			document.getElementById("user-canvas-2")
-// 		]
-// 	},
-// 	'host': {
-// 		'video': [document.getElementById('host-video')],
-// 		'canvas': [document.getElementById('host-canvas')]
-// 	}
-	
-// }
-
 const html = {
 	'user': {
-		'video': [ document.getElementById("user-video-2"),
-				document.getElementById("user-video-0"), 
-				   document.getElementById("user-video-1")
+		'video': [ document.getElementById("user-video-0"), 
+				   document.getElementById("user-video-1"), 
+				   document.getElementById("user-video-2")
 				],
 		'canvas': [
-			document.getElementById("user-canvas-2"),
 			document.getElementById("user-canvas-0"),
-			document.getElementById("user-canvas-1")
+			document.getElementById("user-canvas-1"),
+			document.getElementById("user-canvas-2")
 		]
 	},
 	'host': {
@@ -35,6 +16,25 @@ const html = {
 	}
 	
 }
+
+// const html = {
+// 	'user': {
+// 		'video': [ document.getElementById("user-video-2"),
+// 				document.getElementById("user-video-0"), 
+// 				   document.getElementById("user-video-1")
+// 				],
+// 		'canvas': [
+// 			document.getElementById("user-canvas-2"),
+// 			document.getElementById("user-canvas-0"),
+// 			document.getElementById("user-canvas-1")
+// 		]
+// 	},
+// 	'host': {
+// 		'video': [document.getElementById('host-video')],
+// 		'canvas': [document.getElementById('host-canvas')]
+// 	}
+	
+// }
 
 
 // const angles ={

@@ -220,16 +220,17 @@ function exerciseStarted(poses){
 	let left=find_angle(poses[0].keypoints[8],poses[0].keypoints[6],poses[0].keypoints[12])
 	let right=find_angle(poses[0].keypoints[7],poses[0].keypoints[5],poses[0].keypoints[11])
 	// alert("showcontainer")
-	console.log(left)
-	console.log(right)
-	if(left>340 || right>340)
-	{
-		showcontainer()
-		let audio=document.getElementById("hideAudio")
-		audio.pause()
-		checkStart=false
-		alert(checkStart)
-	}
+	// console.log(left)
+	// console.log(right)
+	console.log([left,right])
+	// if(left>340 || right>340)
+	// {
+		// let audio=document.getElementById("hideAudio")
+		// audio.pause()
+		// checkStart=false
+		// alert(checkStart)
+		// showcontainer()
+	// }
 }
 function hidecontainer(){
 	document.getElementById("div-con").style.display="none"
@@ -266,7 +267,7 @@ function displaychange(){
 }
 async function showcontainer(){
 	// alert("in show cntaineer")
-	displaychange()
+	// displaychange()
 	await sleep(5000)
 	// let audio=document.getElementById("hideAudio")
 	// audio.src="audio/five.wav"
