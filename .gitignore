@@ -162,3 +162,5 @@ cython_debug/
 media/
 
 node_modules/
+
+output.css
