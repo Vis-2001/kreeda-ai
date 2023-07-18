@@ -3,7 +3,6 @@ from django.utils.text import slugify
 from modelcluster.models import ParentalKey
 from wagtail.models import ClusterableModel, Orderable
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.fields import RichTextField
 from wagtail.snippets.models import register_snippet
 
 

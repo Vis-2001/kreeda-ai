@@ -1,22 +1,63 @@
 {% extends '_base.html' %}
+{% load static %}
 {% block body %}
 
-<main class="grid grid-cols-2">
-    <div>
-        <video src="{{ object.video_reference.url }}" muted autoplay loop class="h-full w-full rounded"></video>
+<main class="grid grid-cols-2 relative">
+    <div class="relative max-h-[80vh]">
+        <video id="tutor-video" src="{{ object.video_reference.url }}" muted
+            class="h-full w-full rounded z-[1] object-contain"></video>
+        <canvas id="tutor-canvas" class="absolute top-0 bottom-0 right-0 left-0 w-full h-full text-white z-10"></canvas>
     </div>
-    <div class="">
-        <div class="bg-black h-full">
+    <div class="relative">
+        <video id="user-video" src="" muted autoplay class="h-full w-full rounded z-[1]"></video>
+        <canvas id="user-canvas" class="absolute top-0 bottom-0 right-0 left-0 w-full h-full text-white z-10"></canvas>
+    </div>
+    <div id="popup"
+        class="opacity-0 absolute bottom-10 text-center flex justify-center items-center w-full duration-200 ease-in">
+        <div class="bg-black/80 w-fit p-10 text-white rounded text-2xl font-bold">
+            Rep not counted! Please correct your exercise posture.
         </div>
-        <div class="flex justify-center items-center">
-            <div class="bg-secondary h-10 w-10"></div>
-            <div class="bg-red-600 h-10 w-10"></div>
+    </div>
+    <div class="absolute flex justify-center items-center gap-5 w-full h-full">
+        <div class="flex flex-col justify-center items-center gap-5">
+            <div class="bg-[#f00] rounded-full flex flex-col justify-center items-center w-28 h-28">
+                <h5 class="text-white text-2xl font-medium">Set</h5>
+                <p id="set-counter" class="text-white text-3xl my-2">1</p>
+            </div>
+
+            <div class="bg-[#f00] rounded-full flex flex-col justify-center items-center w-28 h-28">
+                <h5 class="text-white text-2xl font-medium">Reps</h5>
+                <p id="rep-counter" class="text-white text-3xl my-2">0</p>
+            </div>
         </div>
+
+
+
     </div>
 </main>
 
-<section class="my-20">
-    something
-</section>
+<div class="hidden">
+    {% for item in object.joints_to_track.all %}
+    <p class="joint" data-joint="{{ item.tensorflow_model_number }}"></p>
+    {% endfor %}
+</div>
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+
+<script>
+    const selAngles = []
+    const joints = document.querySelectorAll('[data-joint]')
+    Array.from(joints).forEach(e => {
+        selAngles.push(+e.getAttribute("data-joint"))
+    })
+    reps_per_set = 2
+    reps = [2, 2]
+
+</script>
+<script src="{% static 'js/start.js' %}"></script>
 {% endblock %}
