@@ -1,7 +1,10 @@
 let wrongFrames = 0
 let correctFrames = 0
 
+
+const loadingDiv = document.getElementById("loading")
 const popup = document.getElementById("popup")
+const mainDiv = document.getElementById("main-div")
 
 const setCounter = document.getElementById("set-counter")
 const repCounter = document.getElementById("rep-counter")
@@ -21,9 +24,24 @@ const anglesMap = {
     rightElbow: 3
 }
 
+
 const angles = [[7, 5, 11], [8, 6, 12], [9, 7, 5], [10, 8, 6], [13, 11, 12], [14, 12, 11], [5, 11, 13], [6, 12, 14], [11, 13, 15], [12, 14, 16], [6, 2, 5], [6, 1, 5]]
 
 
+function setLoading(state) {
+    if (state) {
+        loadingDiv.classList.remove("hidden")
+        loadingDiv.classList.add("flex")
+        mainDiv.classList.add("hidden")
+        mainDiv.classList.remove("grid")
+    } else {
+        loadingDiv.classList.add("hidden")
+        loadingDiv.classList.remove("flex")
+
+        mainDiv.classList.remove("hidden")
+        mainDiv.classList.add("grid")
+    }
+}
 
 function find_angle(A, B, C) {
     var rad = Math.atan2(C.y - B.y, C.x - B.x) - Math.atan2(A.y - B.y, A.x - B.x)
@@ -111,6 +129,7 @@ async function load_movenet() {
     user_model = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER })
     host_model = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER })
     console.log("Finsihed Loading Tensorflow.")
+    setLoading(false)
 }
 
 const user_clr = []

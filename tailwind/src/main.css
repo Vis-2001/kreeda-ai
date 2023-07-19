@@ -4,7 +4,35 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    height: 100%;
+}
 
 body {
     font-family: 'Poppins', sans-serif;
+    height: 100%;
+}
+
+.fancy-loader {
+    background: linear-gradient(180deg, #001AFF 0%, #8F00FF 36.98%, #FF00C7 68.50%, #F00 100%);
+    filter: blur(15px);
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+
+.text-gradient {
+    background: linear-gradient(267deg, #9A1866 0%, #5E79FF 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
