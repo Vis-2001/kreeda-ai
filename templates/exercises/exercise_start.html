@@ -91,7 +91,7 @@
 
     const na = document.querySelectorAll('[data-na]')
     Array.from(na).forEach(e => {
-        errorNegativeAngles.push(e.getAttribute("data-na"))
+        errorNegativeAngles.push(+e.getAttribute("data-na"))
     })
 
     const nm = document.querySelectorAll('[data-nm]')

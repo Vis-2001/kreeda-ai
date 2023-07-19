@@ -1,6 +1,8 @@
 let wrongFrames = 0
 let correctFrames = 0
-
+let diffAngleState=true
+let accuracy=0
+let wrongExercises=0
 
 const loadingDiv = document.getElementById("loading")
 const popup = document.getElementById("popup")
@@ -73,19 +75,37 @@ function diff(ang1, ang2) {
     for (let i = 0; i < selAngles.length; i++) {
         if (selAngles[i] != null) {
             var d = ang1[selAngles[i]] - ang2[selAngles[i]];
-            if (d < -30) {
+            if (d <  errorNegativeAngles[i]) {
                 ans.push(angles[selAngles[i]][1])
                 user_clr[angles[selAngles[i]][1]] = "red"
+                if(diffAngleState){
+                    var utterance = new SpeechSynthesisUtterance(errorNegativeMessages[i]);
+                    window.speechSynthesis.speak(utterance);
+                    diffAngleState=false
+					break
+                }
+                
             }
-            else if (d > 30) {
+            else if (d > errorPositiveAngles[i]) {
                 ans.push(angles[selAngles[i]][1])
                 user_clr[angles[selAngles[i]][1]] = "red"
+                if(diffAngleState){
+                    var utterance = new SpeechSynthesisUtterance(errorPositiveMessages[i]);
+                    window.speechSynthesis.speak(utterance);
+                    diffAngleState=false
+					break
+                }
             }
             else {
                 user_clr[angles[selAngles[i]][1]] = "green"
             }
 
         }
+    }
+    if(ans.length==0)
+    {
+        diffAngleState=true
+        window.speechSynthesis.cancel()
     }
     if (ans.length > 0)
         wrongFrames = wrongFrames + ans.length / selAngles.length;
@@ -214,11 +234,12 @@ tutorVideo.addEventListener("ended", async function () {
 
     if (wrongFrames / correctFrames < 0.35) {
         reps[ind]--;
-
+        accuracy=accuracy+(1-wrongFrames/correctFrames)
         repCount = reps_per_set - reps[ind]
         repCounter.innerText = repCount
     }
     else {
+        wrongExercises++;
         let utterance = new SpeechSynthesisUtterance("You failed the Rep!");
         speechSynthesis.speak(utterance);
         popup.classList.remove("opacity-0")
@@ -247,6 +268,8 @@ tutorVideo.addEventListener("ended", async function () {
         tutorVideo.play()
     }
     else {
+        accuracy=accuracy/(reps_per_set*reps.length)
+        alert(accuracy,wrongExercises)
         // alert("exercise compeleted")
     }
 })
