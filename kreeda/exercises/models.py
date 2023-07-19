@@ -11,6 +11,12 @@ class Joints(models.Model):
     tensorflow_model_number = models.IntegerField(unique=True)
     name = models.CharField(max_length=128)
 
+    positive_error_angle = models.IntegerField()
+    positive_error_message = models.CharField(max_length=128)
+
+    negative_error_angle = models.IntegerField()
+    negative_error_message = models.CharField(max_length=128)
+
     def __str__(self) -> str:
         return self.name
     

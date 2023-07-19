@@ -16,6 +16,9 @@ const tutorCanvas = document.getElementById("tutor-canvas")
 const userVideo = document.getElementById("user-video")
 const userCanvas = document.getElementById("user-canvas")
 
+positiveAngleThreshold = 30
+negativeAngleThreshold = -30
+
 let host_model = null
 let user_model = null
 

@@ -51,7 +51,12 @@
 
 <div class="hidden">
     {% for item in object.joints_to_track.all %}
-    <p class="joint" data-joint="{{ item.tensorflow_model_number }}"></p>
+        <p class="joint" data-joint="{{ item.tensorflow_model_number }}"></p>
+        <p class="" data-pa="{{ item.positive_error_angle }}"></p>
+        <p class="" data-pm="{{ item.positive_error_message }}"></p>
+
+        <p class="" data-na="{{ item.negative_error_angle }}"></p>
+        <p class="" data-nm="{{ item.negative_error_message }}"></p>
     {% endfor %}
 </div>
 
@@ -64,10 +69,38 @@
 
 <script>
     const selAngles = []
+    const errorPositiveAngles = []
+    const errorPositiveMessages = []
+    const errorNegativeAngles = []
+    const errorNegativeMessages = []
+    
     const joints = document.querySelectorAll('[data-joint]')
     Array.from(joints).forEach(e => {
         selAngles.push(+e.getAttribute("data-joint"))
     })
+
+    const pa = document.querySelectorAll('[data-pa]')
+    Array.from(pa).forEach(e => {
+        errorPositiveAngles.push(+e.getAttribute("data-pa"))
+    })
+
+    const pm = document.querySelectorAll('[data-pm]')
+    Array.from(pm).forEach(e => {
+        errorPositiveMessages.push(e.getAttribute("data-pm"))
+    })
+
+    const na = document.querySelectorAll('[data-na]')
+    Array.from(na).forEach(e => {
+        errorNegativeAngles.push(e.getAttribute("data-na"))
+    })
+
+    const nm = document.querySelectorAll('[data-nm]')
+    Array.from(nm).forEach(e => {
+        errorNegativeMessages.push(e.getAttribute("data-nm"))
+    })
+    console.log(selAngles)
+    console.log(errorPositiveAngles, errorPositiveMessages, errorNegativeAngles, errorNegativeMessages)
+
     reps_per_set = 2
     reps = [2, 2]
 
