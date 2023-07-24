@@ -3,6 +3,13 @@ let correctFrames = 0
 let diffAngleState=true
 let accuracy=0
 let wrongExercises=0
+let stepIndex=0
+let steps_bentoverrow=[[-198.17964567, -197.83335493,  -48.22544226,  -53.84908831,    140.06809836,  127.13906964],  [-197.33647649, -193.75004551,  -57.7336418 ,  -55.76304441,    136.0016985 ,  128.50303437],  [-221.79759517, -201.38879888,  -32.89517323,  -51.8119177 ,    140.78568044,  126.84951319],  [-272.88442019, -276.99375734,   48.11255738,   33.94933676,    131.36140457,  120.1747237 ],  [-239.11292175, -211.33851088,   -3.62274003,  -35.8202646 ,    146.8386803 ,  139.12297621],  [-237.31133987, -204.54373842,  -19.60676209,  -45.90638044,    136.83534566,  138.36855478],  [-194.65331317, -197.05826558,  -50.70110314,  -54.74984373,    139.38774781,  126.60324907]]
+let steps=[[-184.90276969, -190.62881485],[-264.80974247, -260.46141468],[54.24043369, 55.25266346],[48.7053814 , 44.19513105],[75.43668474, 73.28635648],[-267.04061691, -267.10692253],[-184.90276969, -190.62881485]]
+let leftElbow = []
+let rightElbow = []
+let ind = 0;
+let exerciseFinish=true
 
 const loadingDiv = document.getElementById("loading")
 const popup = document.getElementById("popup")
@@ -65,51 +72,61 @@ function get_angle(poses) {
     return ans
 }
 
-function diff(ang1, ang2) {
-    if (!ang1 || !ang2) {
+function checkSteps(ang1){
+    if (!ang1) {
+        stepIndex=0
+        console.log("exercise reset")
         return
     }
-    let ans = []
-    // let audiosrc="audio/elbow.wav"
-    let pos = 0;
-    for (let i = 0; i < selAngles.length; i++) {
-        if (selAngles[i] != null) {
-            var d = ang1[selAngles[i]] - ang2[selAngles[i]];
-            if (d <  errorNegativeAngles[i]) {
-                ans.push(angles[selAngles[i]][1])
-                user_clr[angles[selAngles[i]][1]] = "red"
-                if(diffAngleState){
-                    var utterance = new SpeechSynthesisUtterance(errorNegativeMessages[i]);
-                    window.speechSynthesis.speak(utterance);
-                    diffAngleState=false
-					break
-                }
-                
-            }
-            else if (d > errorPositiveAngles[i]) {
-                ans.push(angles[selAngles[i]][1])
-                user_clr[angles[selAngles[i]][1]] = "red"
-                if(diffAngleState){
-                    var utterance = new SpeechSynthesisUtterance(errorPositiveMessages[i]);
-                    window.speechSynthesis.speak(utterance);
-                    diffAngleState=false
-					break
-                }
-            }
-            else {
+    let val=0;
+    for(let i=0;i<selAngles.length;i++){
+        if(selAngles[i]!=null){
+            let d=steps[stepIndex][i]-ang1[selAngles[i]]
+            if(Math.abs(d)<=errorPositiveAngles[i]){
+                val++;
                 user_clr[angles[selAngles[i]][1]] = "green"
             }
-
+            else{
+                user_clr[angles[selAngles[i]][1]] = "red"
+            }
         }
     }
-    if(ans.length==0)
-    {
-        diffAngleState=true
-        window.speechSynthesis.cancel()
+    if(val>parseInt(selAngles.length/2)){
+        wrongFrames=wrongFrames+1-val/selAngles.length
+        correctFrames++;
+        stepIndex++;
+        console.log("step compeleted")
+        if(stepIndex>=steps.length){
+            stepIndex=0;
+            console.log("rep compeleted")
+            reps[ind]--;
+            console.log("accuracy of rep:",1-wrongFrames/correctFrames)
+            accuracy=accuracy+(1-wrongFrames/correctFrames)
+            wrongFrames=0
+            correctFrames=0
+            repCount = reps_per_set - reps[ind]
+            repCounter.innerText = repCount
+            if (reps[ind] <= 0) {
+                ind++;
+                console.log("set compeleted")
+                if (ind < reps.length) {
+                    setCounter.innerText = ind + 1
+                    repCounter.innerText = 0
+                    // alert("rep completed")
+                }
+            }
+            if(ind>=reps.length){
+                console.log("exercise compeleted")
+                exerciseFinish=false
+                accuracy=accuracy/(reps.length*reps_per_set)
+                console.log("accuracy of exercse:",accuracy)
+                for(let i=0;i<selAngles.length;i++){
+                    user_clr[angles[selAngles[i]][1]] = "green"
+                }
+                // tutorVideo.pause()
+            }
+        }
     }
-    if (ans.length > 0)
-        wrongFrames = wrongFrames + ans.length / selAngles.length;
-    correctFrames++;
 }
 
 function drawKeypoints(video, poses, canvas, clr, ang) {
@@ -156,45 +173,23 @@ async function load_movenet() {
 }
 
 const user_clr = []
-const host_clr = []
-
-
 
 for (let i = 0; i < 18; i++) {
     user_clr.push("green")
-    host_clr.push("green")
-}
-
-for (let i = 0; i < selAngles.length; i++) {
-    host_clr[angles[selAngles[i]][i]] = "blue"
 }
 
 
 async function get_poses_0() {
-    // console.log("")
-    let poses1 = [];
-
-    await host_model.estimatePoses(tutorVideo, { flipHorizontal: false })
-        .then(keypoint_list => { poses1 = keypoint_list; })
-        .catch((error) => { console.log(error); })
-    let ang1 = get_angle(poses1, 1)
-    drawKeypoints(tutorVideo, poses1, tutorCanvas, host_clr, ang1);
-
     let poses = [];
     await user_model.estimatePoses(userVideo, { flipHorizontal: false })
         .then(keypoint_list => { poses = keypoint_list; })
         .catch((error) => { console.log(error); })
 
     let ang2 = get_angle(poses, -1)
-    diff(ang1, ang2)
+    if(exerciseFinish){
+        checkSteps(ang2)
+    }
     drawKeypoints(userVideo, poses, userCanvas, user_clr, ang2);
-    // console.log(ang1)
-    // console.log(ang2)
-    // console.log("\n\n")
-    // if (checkStart == true) {
-    //     exerciseStarted(poses1)
-    // }
-    // console.log(poses)
 }
 
 const plot = async () => {
@@ -227,51 +222,6 @@ const main = async () => {
     tutorVideo.play()
     plot()
 }
-
-let ind = 0;
-tutorVideo.addEventListener("ended", async function () {
-    console.log([wrongFrames, correctFrames])
-
-    if (wrongFrames / correctFrames < 0.35) {
-        reps[ind]--;
-        accuracy=accuracy+(1-wrongFrames/correctFrames)
-        repCount = reps_per_set - reps[ind]
-        repCounter.innerText = repCount
-    }
-    else {
-        wrongExercises++;
-        let utterance = new SpeechSynthesisUtterance("You failed the Rep!");
-        speechSynthesis.speak(utterance);
-        popup.classList.remove("opacity-0")
-        popup.classList.add("opacity-100")
-        tutorVideo.pause()
-        await sleep(3000)
-        popup.classList.add("opacity-0")
-        popup.classList.remove("opacity-100")
-        tutorVideo.currentTime = 0
-        tutorVideo.play()
-        // alert("Wrong rep")
-    }
-    wrongFrames = 0
-    correctFrames = 0
-    if (reps[ind] <= 0) {
-        ind++;
-        if (ind < reps.length) {
-            setCounter.innerText = ind + 1
-            repCounter.innerText = 0
-            // alert("rep completed")
-        }
-
-    }
-    if (ind < reps.length) {
-        tutorVideo.currentTime = 0;
-        tutorVideo.play()
-    }
-    else {
-        accuracy=accuracy/(reps_per_set*reps.length)
-        alert(accuracy,wrongExercises)
-        // alert("exercise compeleted")
-    }
-})
+tutorVideo.loop=true
 
 main()
